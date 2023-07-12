@@ -7,8 +7,8 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-
-requirements = [ ]
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 test_requirements = ['pytest>=3', ]
 
@@ -21,8 +21,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
