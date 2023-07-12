@@ -1,9 +1,8 @@
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import FAISS
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
-
-from generals import *
+from langchain.schema import Document
+from typing import List, Optional
+from copy import deepcopy
 
 
 class LoadDoc:
