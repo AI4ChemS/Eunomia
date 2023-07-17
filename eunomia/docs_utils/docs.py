@@ -18,8 +18,6 @@ class LoadDoc:
         Instance of PyPDFLoader to load the document.
     pages : list
         Pages of the loaded document.
-    text_splitter : CharacterTextSplitter
-        Instance of CharacterTextSplitter to split the document text.
     """
 
     def __init__(self, path: str, paper_id: str):
@@ -36,7 +34,6 @@ class LoadDoc:
         self.paper_path = path + self.paper_id + '.pdf'
         self.loader = PyPDFLoader(self.paper_path)
         self.pages = self.loader.load_and_split()
-        self.text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 
     @staticmethod
     def cut_text(text: str, keywords: List[str]) -> str:
@@ -97,18 +94,29 @@ class LoadDoc:
                 break
         return filtered_documents
 
-    def process(self, search_strings: List[str]):
+    def process(self, search_strings: List[str], chunk_size: Optional[int] = None, chunk_overlap: Optional[int] = 0) -> List[Document]:
         """
-        Process the document pages based on the search strings.
+        Process the document pages based on the search strings. Additionally, this function
+        will split the document into chunks if a chunk size is provided.
 
         Parameters:
         search_strings : List[str]
             List of strings to search for.
+        chunk_size : Optional[int]
+            The size of the chunks in which the document will be split. If this parameter
+            is not provided, the document will not be split into chunks.
+        chunk_overlap : Optional[int]
+            The size of the overlap between chunks. If chunk_size is not provided, this
+            parameter will not be used.
 
         Returns:
         List[Document]
             List of processed document chunks.
         """
         sliced_pages = self.filter_documents(self.pages, search_strings)
-        sliced_pages_chunks = self.text_splitter.split_documents(sliced_pages)
-        return sliced_pages_chunks
+        if chunk_size is not None:
+            text_splitter = CharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+            sliced_pages = text_splitter.split_documents(sliced_pages)
+
+        return sliced_pages
+
