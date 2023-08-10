@@ -1,5 +1,6 @@
 from fuzzywuzzy import fuzz
 
+
 def match_MOF_names(prediction_dict, ground_truth_dict, threshold=80):
     """
     Match MOF names between prediction and ground truth dictionaries based on similarity.
@@ -21,10 +22,13 @@ def match_MOF_names(prediction_dict, ground_truth_dict, threshold=80):
               the matched MOFs between prediction_dict and ground_truth_dict.
             - A list (matched_pairs) that contains tuples of matched key pairs from
               prediction_dict and ground_truth_dict.
+            - A list (unmatched_pairs) that contains tuples of key that could not be matched between
+              prediction_dict and ground_truth_dict.
     """
 
     combined_dict = {}
     matched_pairs = []
+    unmatched_pairs = []
     matched_ground_truth_keys = set()  # Set to store matched ground_truth_dict keys
 
     for key_1, value_1 in prediction_dict.items():
@@ -46,5 +50,7 @@ def match_MOF_names(prediction_dict, ground_truth_dict, threshold=80):
             matched_pairs.append((key_1, matched_key))
             # Add the matched ground_truth_dict key to the set
             matched_ground_truth_keys.add(matched_key)
+        else:
+            unmatched_pairs.append((key_1, key_2))
 
-    return combined_dict, matched_pairs
+    return combined_dict, matched_pairs, unmatched_pairs

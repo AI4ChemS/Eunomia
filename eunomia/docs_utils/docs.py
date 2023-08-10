@@ -1,4 +1,3 @@
-from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
 from langchain.schema import Document
 from typing import List, Optional
@@ -94,7 +93,8 @@ class LoadDoc:
                 break
         return filtered_documents
 
-    def process(self, search_strings: List[str], chunk_size: Optional[int] = None, chunk_overlap: Optional[int] = 0) -> List[Document]:
+    def process(self, search_strings: List[str], chunk_size: Optional[int] = None,
+                 chunk_overlap: Optional[int] = 0, chunking_type='fixed-size') -> List[Document]:
         """
         Process the document pages based on the search strings. Additionally, this function
         will split the document into chunks if a chunk size is provided.
@@ -114,9 +114,23 @@ class LoadDoc:
             List of processed document chunks.
         """
         sliced_pages = self.filter_documents(self.pages, search_strings)
+        text_splitter = None
         if chunk_size is not None:
-            text_splitter = CharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+            if chunking_type == 'fixed-size':
+                from langchain.text_splitter import CharacterTextSplitter
+                text_splitter = CharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+            if chunking_type == 'latex':
+                from langchain.text_splitter import LatexTextSplitter
+                text_splitter = LatexTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+            if chunking_type == 'NLTK':
+                from langchain.text_splitter import NLTKTextSplitter
+                text_splitter = NLTKTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+            if chunking_type == 'spacy':
+                from langchain.text_splitter import SpacyTextSplitter
+                text_splitter = SpacyTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
             sliced_pages = text_splitter.split_documents(sliced_pages)
+
 
         return sliced_pages
 
