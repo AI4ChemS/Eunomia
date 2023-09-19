@@ -1,10 +1,11 @@
 black==21.7b0
+pydantic==1.10.12
 openai
 langchain
 pypdf
 tiktoken
-faiss-cpu
 matplotlib
 seaborn
 pandas
 fuzzywuzzy
+PyYAML
