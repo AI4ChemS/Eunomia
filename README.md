@@ -1,4 +1,5 @@
 ![example workflow](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # EunomiA
 LLM-based tool for predicting water stability of metal organic frameworks.
 
