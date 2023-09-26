@@ -209,6 +209,7 @@ def eval_justification(justification):
 
 
 
+
 @tool
 def read_doc(input):
     '''
@@ -217,7 +218,7 @@ def read_doc(input):
     '''
 
     k = 9
-    min_k = 4  # Minimum limit for k
+    min_k = 2  # Minimum limit for k
     llm = langchain.OpenAI(temperature=0, model_name='gpt-4')  
     result = eunomia.RetrievalQABypassTokenLimit(WATER_STABILITY_PROMPT, faiss_index, k=k, min_k=min_k, llm=llm,
                          search_type="mmr", fetch_k=50, chain_type="stuff", memory=None)
@@ -240,7 +241,7 @@ def recheck_justification(MOF_name):
         3. The exact sentences without any changes from the document that justifies your decision. Try to find more than once sentence. This should be "Not provided" if you cannot find water stability.
         """
     k = 6
-    min_k = 4  # Minimum limit for k
+    min_k = 2  # Minimum limit for k
     llm = langchain.OpenAI(temperature=0, model_name='gpt-4')  
     result = eunomia.RetrievalQABypassTokenLimit(input_prompt, faiss_index, k=k, min_k=min_k, llm=llm,
                          search_type="mmr", fetch_k=50, chain_type="stuff", memory=None)
