@@ -34,3 +34,5 @@ jobs:
       working-directory: tests/
       run: |
         python -m unittest discover
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
