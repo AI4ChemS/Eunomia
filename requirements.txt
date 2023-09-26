@@ -9,3 +9,4 @@ seaborn
 pandas
 fuzzywuzzy
 PyYAML
+llama-index
