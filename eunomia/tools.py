@@ -5,9 +5,10 @@ from .prompts import RULES, WATER_STABILITY_PROMPT
 
 
 class EunomiaTools:
+
     def __init__(
         self,
-        retriever=None,
+        vectorstore=None,
         tool_names=[],
         chemspace=None,
         openai=None,
@@ -16,7 +17,7 @@ class EunomiaTools:
         surrogate_llm_temp=0.1,
     ):
         
-        self.retriever = retriever
+        self.vectorstore = vectorstore
         self.all_tools = []
         for name in tool_names:
             tool_info = EunomiaTools.all_tools_dict.get(name, {})
@@ -28,7 +29,9 @@ class EunomiaTools:
 
 
     def get_tools(self):
+        EunomiaTools.vectorstore = self.vectorstore
         return self.all_tools
+    
 
     def get_cif_from_COD(doi):
         '''This tool downloads all the CIF files from Crystallography Open Database (COD) for a given input doi and returns file names for them'''
@@ -225,18 +228,16 @@ class EunomiaTools:
         return response.choices[0].message["content"]
 
 
-
-    @classmethod
-    def read_doc(cls, input):
+    def read_doc(input):
         k = 9
         min_k = 2  # Minimum limit for k
         llm = langchain.OpenAI(temperature=0, model_name='gpt-4')  
-        result = eunomia.RetrievalQABypassTokenLimit(WATER_STABILITY_PROMPT, EunomiaTools.retriever, k=k, min_k=min_k, llm=llm,
+        result = eunomia.RetrievalQABypassTokenLimit(WATER_STABILITY_PROMPT, EunomiaTools.vectorstore, k=k, min_k=min_k, llm=llm,
                             search_type="mmr", fetch_k=50, chain_type="stuff", memory=None)
         return result
 
-    @classmethod
-    def recheck_justification(cls, MOF_name):
+
+    def recheck_justification(MOF_name):
         input_prompt = f"""
             You are an expert chemist. The document describes the water stability properties of {MOF_name}.
         
@@ -251,7 +252,7 @@ class EunomiaTools:
         k = 6
         min_k = 2  # Minimum limit for k
         llm = langchain.OpenAI(temperature=0, model_name='gpt-4')  
-        result = eunomia.RetrievalQABypassTokenLimit(input_prompt, EunomiaTools.retriever, k=k, min_k=min_k, llm=llm,
+        result = eunomia.RetrievalQABypassTokenLimit(input_prompt, EunomiaTools.vectorstore, k=k, min_k=min_k, llm=llm,
                             search_type="mmr", fetch_k=50, chain_type="stuff", memory=None)
         return result
 
@@ -305,4 +306,3 @@ class EunomiaTools:
         }
     }
 
-    
