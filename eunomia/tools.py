@@ -1,5 +1,8 @@
 import os
 from langchain.agents import Tool, tool
+import eunomia
+import langchain
+from .prompts import RULES, WATER_STABILITY_PROMPT
 
 
 @tool
@@ -176,3 +179,88 @@ def get_cif_from_CCDC(doi):
     # need to figure out the name of the cif to check if it has been downloaded, for now just wait 30 seconds before quitting
     time.sleep(30)
     driver.quit()
+
+
+@tool
+def eval_justification(justification):
+    '''
+    Always use this tool to validate justification. This function checks if the justification talks about the water stability perdiction makes sense for each MOF. 
+    '''
+    import openai
+    model="gpt-4"
+    prompt = f"""
+            Do the below sentences actually talk about water stability of the found MOF?
+            If not, try to find a better justification for that MOF in the document .
+            
+            "{justification}"
+
+            To do this, you should check on steep uptakes, solubility in water, change in properties after being exposed to water/steam, change in crystallinity, or mention of water stability in the sentence.
+            If the justification can somehow imply water stability/instability, update "Water stability" to Stable/Unstable but lower your "Probability score".
+            Do not make up answers.
+            Do not consider chemical or thermal stability or stability in air as a valid reason. 
+            """
+    messages = [{"role": "user", "content": prompt}]
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        temperature=0, 
+    )
+    return response.choices[0].message["content"]
+
+
+
+@tool
+def read_doc(input):
+    '''
+    Input the users original prompt and get context on water stability of metal organic frameworks.
+    Always search for the answers using this tool first, don't make up answers yourself.
+    '''
+
+    k = 9
+    min_k = 4  # Minimum limit for k
+    llm = langchain.OpenAI(temperature=0, model_name='gpt-4')  
+    result = eunomia.RetrievalQABypassTokenLimit(WATER_STABILITY_PROMPT, faiss_index, k=k, min_k=min_k, llm=llm,
+                         search_type="mmr", fetch_k=50, chain_type="stuff", memory=None)
+    return result
+
+@tool
+def recheck_justification(MOF_name):
+    '''
+    This tool reads the document again for the specific MOF_name and tries to find a better justification for its water stability. 
+    '''
+    input_prompt = f"""
+        You are an expert chemist. The document describes the water stability properties of {MOF_name}.
+    
+        Use the following rules to determine its water stability:
+        {RULES}
+        
+        Your final answer should contain the following:
+        1. The water stability of the MOF.
+        2. The probability score ranging between [0, 1]. This probability score shows how certain you are in your answer.
+        3. The exact sentences without any changes from the document that justifies your decision. Try to find more than once sentence. This should be "Not provided" if you cannot find water stability.
+        """
+    k = 6
+    min_k = 4  # Minimum limit for k
+    llm = langchain.OpenAI(temperature=0, model_name='gpt-4')  
+    result = eunomia.RetrievalQABypassTokenLimit(input_prompt, faiss_index, k=k, min_k=min_k, llm=llm,
+                         search_type="mmr", fetch_k=50, chain_type="stuff", memory=None)
+    return result
+
+@tool
+def create_dataset(answer):
+    '''
+    This tool creates a csv dataset by parsing the answer. 
+    '''
+    parsed_result = eunomia.parse_to_dict(answer)
+    results_index_path = f"dataset.csv"
+    import pandas as pd    
+    list_of_dicts = []
+    for mof, attributes in parsed_result.items():
+        temp_dict = {'MOF contained': mof}
+        temp_dict.update(attributes)  # attributes should be a dictionary of corresponding attributes for each MOF
+        list_of_dicts.append(temp_dict)
+    df = pd.DataFrame(list_of_dicts)
+    
+    ordered_columns = ['Paper id', 'DOI', 'MOF contained', 'Predicted Stability', 'Justification']
+    df = df[ordered_columns]
+    df.to_csv(results_index_path, index=False)
