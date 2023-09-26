@@ -96,8 +96,83 @@ def rename_cif(file_path):
             os.rename(file_path, f"CIF_files/{value}.cif")
         except:
             if FileExistsError:
-                print('CIF file already exists.')
+                print('\nCIF file already exists.')
                 pass
 
 
 
+@tool
+def get_cif_from_ccdc(doi):
+    '''This tool downloads the CIF file for a given input doi from CCDC'''
+    from selenium import webdriver
+    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    import os
+    
+        # Set up Chrome options
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("prefs", {
+        "download.default_directory": os.getcwd(),
+        "download.prompt_for_download": False,
+        "download.directory_upgrade": True,
+        "safebrowsing.enabled": True
+    })
+    
+    # Initialize Selenium WebDriver with the specified options
+    driver = webdriver.Chrome(options=chrome_options)
+    
+    # Initialize Chrome driver
+    driver = webdriver.Chrome()
+    
+    # Navigate to the website
+    driver.get("https://www.ccdc.cam.ac.uk/structures/")
+
+    
+    doi_input = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "Doi"))
+    )
+    
+    # Type the DOI into the DOI input field
+    doi_input.send_keys(doi)
+    
+    search_button = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.XPATH, '//input[@value="Search"]'))
+    )
+    search_button.click()
+
+    download_button_dropdown = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "downloadOptionsButton"))
+    )
+    download_button_dropdown.click()
+    
+    # Now wait for the "Download all selected entries" link to be clickable and then click it
+    download_selected_entries_link = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, "downloadSelected"))
+    )
+    download_selected_entries_link.click()
+    opt_out_link = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "howthishelps2"))
+    )
+    opt_out_link.click()
+    
+    no_detail = opt_out_link = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "nodetailsModalRemove"))
+    ) 
+    no_detail.click()
+
+    checkbox = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "Terms"))
+    )
+    checkbox.click()
+    checkbox = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "download"))
+    )
+    checkbox.click()
+    
+    # Close the driver
+    import time
+    # need to figure out the name of the cif to check if it has been downloaded, for now just wait 30 seconds before quitting
+    time.sleep(30)
+    driver.quit()
