@@ -23,8 +23,10 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        
     ],
-    description="LLM-based tool for predicting stability of metal organic frameworks",
+    description="LLM-based tool for predicting water stability of metal organic frameworks",
     install_requires=requirements,
     license="MIT license",
     include_package_data=True,
