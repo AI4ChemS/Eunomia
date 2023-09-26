@@ -102,7 +102,7 @@ def rename_cif(file_path):
 
 
 @tool
-def get_cif_from_ccdc(doi):
+def get_cif_from_CCDC(doi):
     '''This tool downloads the CIF file for a given input doi from CCDC'''
     from selenium import webdriver
     from selenium.webdriver.common.keys import Keys
