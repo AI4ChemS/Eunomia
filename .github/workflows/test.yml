@@ -28,6 +28,8 @@ jobs:
     - name: Install
       run: |
         pip install .
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
     - name: Run Test
       working-directory: tests/
       run: |
