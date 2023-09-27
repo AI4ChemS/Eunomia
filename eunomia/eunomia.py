@@ -35,17 +35,21 @@ def RetrievalQABypassTokenLimit(
     while k >= min_k:
         try:
             retriever = faiss_vectorstore.as_retriever(
-                search_type=search_type, search_kwargs={"k": k, "fetch_k": fetch_k}
+                search_type=search_type,
+                search_kwargs={"k": k, "fetch_k": fetch_k},
             )
             qa_chain = RetrievalQA.from_chain_type(
-                llm=llm, chain_type=chain_type, retriever=retriever, memory=memory
+                llm=llm,
+                chain_type=chain_type,
+                retriever=retriever,
+                memory=memory,
             )
 
             # Check to see if we hit the token limit
             result = qa_chain.run(prompt)
             return result  # If successful, return the result and exit the function
 
-        except Exception as e:
+        except Exception:
             # If an error is caught, reduce the value of k and retry
             print(
                 f"\nk={k} results hitting the token limit for the chosen LLM. Reducing k and retrying..."
