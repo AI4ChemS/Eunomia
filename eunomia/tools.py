@@ -12,11 +12,6 @@ class EunomiaTools:
         self,
         vectorstore=None,
         tool_names=[],
-        chemspace=None,
-        openai=None,
-        pqa=None,
-        surrogate_llm="text-davinci-003",
-        surrogate_llm_temp=0.1,
     ):
         self.vectorstore = vectorstore
         self.all_tools = []
@@ -35,11 +30,14 @@ class EunomiaTools:
         return self.all_tools
 
     def get_cif_from_COD(doi):
-        """This tool downloads all the CIF files from Crystallography Open Database (COD) for a given input doi and returns file names for them"""
+        """This tool downloads all the CIF files from Crystallography
+          Open Database (COD) for a given input
+        doi and returns file names for them"""
         from selenium import webdriver
         from selenium.webdriver.common.by import By
-        from selenium.webdriver.common.keys import Keys
-        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.support import (
+            expected_conditions as EC,
+        )
         from selenium.webdriver.support.ui import WebDriverWait
 
         # Set up Chrome options
@@ -79,7 +77,8 @@ class EunomiaTools:
         )
         list_of_cif_urls_link.click()
 
-        # Define the name of the zip file and the directory to unzip to
+        # Define the name of the zip file and the directory to unzip
+        # to
         zip_file_name = "COD.zip"
         unzip_dir = "CIF_files"
 
@@ -130,18 +129,18 @@ class EunomiaTools:
         if value is not None:
             try:
                 os.rename(file_path, f"CIF_files/{value}.cif")
-            except:
+            except BaseException:
                 if FileExistsError:
                     print("\nCIF file already exists.")
-                    pass
 
     def get_cif_from_CCDC(doi):
         import os
 
         from selenium import webdriver
         from selenium.webdriver.common.by import By
-        from selenium.webdriver.common.keys import Keys
-        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.support import (
+            expected_conditions as EC,
+        )
         from selenium.webdriver.support.ui import WebDriverWait
 
         # Set up Chrome options
@@ -182,7 +181,8 @@ class EunomiaTools:
         )
         download_button_dropdown.click()
 
-        # Now wait for the "Download all selected entries" link to be clickable and then click it
+        # Now wait for the "Download all selected entries" link to be clickable
+        # and then click it
         download_selected_entries_link = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "downloadSelected"))
         )
@@ -209,7 +209,8 @@ class EunomiaTools:
         # Close the driver
         import time
 
-        # need to figure out the name of the cif to check if it has been downloaded, for now just wait 30 seconds before quitting
+        # need to figure out the name of the cif to check if it has been
+        # downloaded, for now just wait 30 seconds before quitting
         time.sleep(30)
         driver.quit()
 
@@ -219,14 +220,19 @@ class EunomiaTools:
         model = "gpt-4"
         prompt = f"""
                 Do the below sentences actually talk about water stability of the found MOF?
-                If not, try to find a better justification for that MOF in the document .
-                
+                If not, try to find a better justification for that MOF in the document.
+
                 "{justification}"
 
-                To do this, you should check on steep uptakes, solubility in water, change in properties after being exposed to water/steam, change in crystallinity, or mention of water stability in the sentence.
-                If the justification can somehow imply water stability/instability, update "Water stability" to Stable/Unstable but lower your "Probability score".
+                To do this, you should check on steep uptakes, solubility in water,
+                change in properties after
+                  being exposed to water/steam, change in crystallinity, or mention of
+                  water stability in the sentence.
+                If the justification can somehow imply water stability/instability, update
+                "Water stability" to Stable/Unstable
+                  but lower your "Probability score".
                 Do not make up answers.
-                Do not consider chemical or thermal stability or stability in air as a valid reason. 
+                Do not consider chemical or thermal stability or stability in air as a valid reason.
                 """
         messages = [{"role": "user", "content": prompt}]
         response = openai.ChatCompletion.create(
@@ -256,14 +262,17 @@ class EunomiaTools:
     def recheck_justification(MOF_name):
         input_prompt = f"""
             You are an expert chemist. The document describes the water stability properties of {MOF_name}.
-        
+
             Use the following rules to determine its water stability:
             {RULES}
-            
+
             Your final answer should contain the following:
             1. The water stability of the MOF.
-            2. The probability score ranging between [0, 1]. This probability score shows how certain you are in your answer.
-            3. The exact sentences without any changes from the document that justifies your decision. Try to find more than once sentence. This should be "Not provided" if you cannot find water stability.
+            2. The probability score ranging between [0, 1]. This probability score shows
+            how certain you are in your answer.
+            3. The exact sentences without any changes from the document that justifies your decision.
+              Try to find more than once sentence.
+            This should be "Not provided" if you cannot find water stability.
             """
         k = 6
         min_k = 2  # Minimum limit for k
@@ -283,7 +292,7 @@ class EunomiaTools:
 
     def create_dataset(answer):
         parsed_result = eunomia.parse_to_dict(answer)
-        results_index_path = f"dataset.csv"
+        results_index_path = "dataset.csv"
         import pandas as pd
 
         list_of_dicts = []
@@ -312,16 +321,21 @@ class EunomiaTools:
         },
         "recheck_justification": {
             "function": recheck_justification,
-            "description": """This tool reads the document again for the specific MOF_name and tries to find a better justification for its water stability. """,
+            "description": """This tool reads the document again for the specific
+              MOF_name and tries to find a better
+              justification for its water stability. """,
         },
         "read_doc": {
             "function": read_doc,
-            "description": """Input the users original prompt and get context on water stability of metal organic frameworks.
-                                Always search for the answers using this tool first, don't make up answers yourself.""",
+            "description": """Input the users original prompt and get context on water
+              stability of metal organic frameworks.
+            Always search for the answers using this tool first, don't make up answers yourself.""",
         },
         "eval_justification": {
             "function": eval_justification,
-            "description": """Always use this tool to validate justification. This function checks if the justification talks about the water stability perdiction makes sense for each MOF.""",
+            "description": """Always use this tool to validate justification.
+            This function checks if the justification
+              talks about the water stability perdiction makes sense for each MOF.""",
         },
         "get_cif_from_CCDC": {
             "function": get_cif_from_CCDC,
@@ -329,12 +343,14 @@ class EunomiaTools:
         },
         "rename_cif": {
             "function": rename_cif,
-            "description": """Extract the MOF-Name associated with a target key from a CIF file and renames it. 
+            "description": """Extract the MOF-Name associated with a target key from a CIF file and renames it.
                                 Parameters:
                                     - file_path (str): The path to the CIF file. """,
         },
         "get_cif_from_COD": {
             "function": get_cif_from_COD,
-            "description": """This tool downloads all the CIF files from Crystallography Open Database (COD) for a given input doi and returns file names for them.""",
+            "description": """This tool downloads all the CIF files from
+            Crystallography Open Database (COD) for a given
+              input doi and returns file names for them.""",
         },
     }
