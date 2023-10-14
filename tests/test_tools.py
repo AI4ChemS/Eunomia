@@ -7,7 +7,7 @@ import unittest
 import eunomia
 
 
-class TestGeneral(unittest.TestCase):
+class TestTools(unittest.TestCase):
     def test_tools(self):
         tool_names = list(eunomia.EunomiaTools.all_tools_dict.keys())
         vectorstore = "test_files/test_vector_store.pkl"
