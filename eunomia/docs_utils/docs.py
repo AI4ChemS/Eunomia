@@ -18,44 +18,43 @@ class LoadDoc:
         Pages of the loaded document.
     """
 
-    def __init__(self, filename: str = None, text_input: str = None, **kwargs):
+    def __init__(self, file_name: str = None, text_input: str = None, **kwargs):
         """
         Parameters:
-        filename : str
+        file_name : str
             Path to file.
         text_input : str
             Direct text input.
         **kwargs are passed to the CSVLoader class.
         """
-        if filename is None and text_input is None:
-            raise ValueError("Either 'filename' or 'text_input' must be provided.")
-        elif filename and text_input:
+        if file_name is None and text_input is None:
+            raise ValueError("Either 'file_name' or 'text_input' must be provided.")
+        elif file_name and text_input:
             raise ValueError(
-                "Only one of 'filename' or 'text_input' should be provided as input."
+                "Only one of 'file_name' or 'text_input' should be provided as input."
             )
 
-        if filename:
-            extension = filename.split(".")[-1].lower()
+        if file_name:
+            extension = file_name.split(".")[-1].lower()
             self._check_extension(extension)
-            self.doc_path = filename
+            self.doc_path = file_name
             if self.type == "pdf":
                 from langchain.document_loaders import PyPDFLoader
 
-                self.loader = PyPDFLoader(filename)
+                self.loader = PyPDFLoader(file_name)
             if self.type == "md":
                 from langchain.document_loaders import UnstructuredMarkdownLoader
 
-                self.loader = UnstructuredMarkdownLoader(filename)
+                self.loader = UnstructuredMarkdownLoader(file_name)
             if self.type == "csv":
                 from langchain.document_loaders.csv_loader import CSVLoader
 
-                self.loader = CSVLoader(filename, **kwargs)
+                self.loader = CSVLoader(file_name, **kwargs)
             if self.type == "txt":
                 from langchain.document_loaders import TextLoader
 
-                self.loader = TextLoader(filename)
+                self.loader = TextLoader(file_name)
             self.pages = self.loader.load_and_split()
-            print(type(self.pages))
         else:
             self.pages = [
                 Document(page_content=text_input, metadata={"source": "local"})
