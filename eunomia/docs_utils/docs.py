@@ -1,4 +1,3 @@
-from langchain.document_loaders import PyPDFLoader
 from langchain.schema import Document
 from typing import List, Optional
 from copy import deepcopy
@@ -6,7 +5,7 @@ from copy import deepcopy
 
 class LoadDoc:
     """
-    A class to handle the loading and processing of documents.
+    A class to handle the loading and processing of different Docs.
 
     Attributes:
     paper_id : str
@@ -19,20 +18,69 @@ class LoadDoc:
         Pages of the loaded document.
     """
 
-    def __init__(self, path: str, paper_id: str):
+    def __init__(self, file_name: str = None, text_input: str = None, **kwargs):
         """
-        Constructs the necessary attributes for the LoadDoc object.
+        Parameters:
+        file_name : str
+            Path to file.
+        text_input : str
+            Direct text input.
+        **kwargs are passed to the CSVLoader class.
+        """
+        if file_name is None and text_input is None:
+            raise ValueError("Either 'file_name' or 'text_input' must be provided.")
+        elif file_name and text_input:
+            raise ValueError(
+                "Only one of 'file_name' or 'text_input' should be provided as input."
+            )
+
+        if file_name:
+            extension = file_name.split(".")[-1].lower()
+            self._check_extension(extension)
+            self.doc_path = file_name
+            if self.type == "pdf":
+                from langchain.document_loaders import PyPDFLoader
+
+                self.loader = PyPDFLoader(file_name)
+            if self.type == "md":
+                from langchain.document_loaders import UnstructuredMarkdownLoader
+
+                self.loader = UnstructuredMarkdownLoader(file_name)
+            if self.type == "csv":
+                from langchain.document_loaders.csv_loader import CSVLoader
+
+                self.loader = CSVLoader(file_name, **kwargs)
+            if self.type == "txt":
+                from langchain.document_loaders import TextLoader
+
+                self.loader = TextLoader(file_name)
+            self.pages = self.loader.load_and_split()
+        else:
+            self.pages = [
+                Document(page_content=text_input, metadata={"source": "local"})
+            ]
+
+    def _check_extension(self, extension: str):
+        """
+        Checks the provided file extension against the supported extensions.
 
         Parameters:
-        path : str
-            Base path of the documents.
-        paper_id : str
-            ID of the paper.
+        extension : str
+            File extension to check.
+
+        Raises:
+        Exception:
+            If the file extension is not supported.
+        NotImplementedError:
+            If the file extension is 'xml', which is not yet implemented.
         """
-        self.paper_id = paper_id
-        self.paper_path = path + self.paper_id + ".pdf"
-        self.loader = PyPDFLoader(self.paper_path)
-        self.pages = self.loader.load_and_split()
+        supported_extensions = {"pdf", "txt", "md", "csv"}
+        if extension in supported_extensions:
+            self.type = extension
+        elif extension == "xml":
+            raise NotImplementedError
+        else:
+            raise Exception(f"Eunomia supports {supported_extensions} doc files.")
 
     @staticmethod
     def cut_text(text: str, keywords: List[str]) -> str:
@@ -83,6 +131,8 @@ class LoadDoc:
     ) -> List[Document]:
         """
         Filters documents based on the presence of search strings.
+        use this if you wish to remove "Acknowledgments or "References"
+        in a long research article.
 
         Parameters:
         documents : List[Document]
@@ -107,7 +157,7 @@ class LoadDoc:
 
     def process(
         self,
-        search_strings: List[str],
+        filter_words: List[str] = [],
         chunk_size: Optional[int] = None,
         chunk_overlap: Optional[int] = 0,
         chunking_type="fixed-size",
@@ -117,8 +167,8 @@ class LoadDoc:
         will split the document into chunks if a chunk size is provided.
 
         Parameters:
-        search_strings : List[str]
-            List of strings to search for.
+        filter_words : List[str]
+            List of words to search and filter.
         chunk_size : Optional[int]
             The size of the chunks in which the document will be split. If this parameter
             is not provided, the document will not be split into chunks.
@@ -130,7 +180,7 @@ class LoadDoc:
         List[Document]
             List of processed document chunks.
         """
-        sliced_pages = self.filter_documents(self.pages, search_strings)
+        sliced_pages = self.filter_documents(self.pages, filter_words)
         text_splitter = None
         if chunk_size is not None:
             if chunking_type == "fixed-size":
