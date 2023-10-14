@@ -14,6 +14,7 @@ class Eunomia:
         get_cost=False,
         max_iterations=40,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        **kwargs,
     ):
         if model.startswith("gpt-3.5-turbo") or model.startswith("gpt-4"):
             self.llm = langchain.chat_models.ChatOpenAI(
@@ -35,7 +36,7 @@ class Eunomia:
             query_kwargs={"response_mode": "compact"},
         )
         self.agent_chain = initialize_agent(
-            tools, self.llm, agent=agent_type, verbose=True, memory=memory
+            tools, self.llm, agent=agent_type, verbose=True, memory=memory, **kwargs
         )
 
     def run(self, prompt):
