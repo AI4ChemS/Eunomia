@@ -1,7 +1,3 @@
-from langchain.document_loaders import PyPDFLoader
-from langchain.document_loaders import TextLoader
-from langchain.document_loaders import UnstructuredMarkdownLoader
-from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.schema import Document
 from typing import List, Optional
 from copy import deepcopy
@@ -29,6 +25,7 @@ class LoadDoc:
             Path to file.
         text_input : str
             Direct text input.
+        **kwargs are passed to the CSVLoader class.
         """
         if filename is None and text_input is None:
             raise ValueError("Either 'filename' or 'text_input' must be provided.")
@@ -42,15 +39,22 @@ class LoadDoc:
             self._check_extension(extension)
             self.doc_path = filename
             if self.type == "pdf":
+                from langchain.document_loaders import PyPDFLoader
+
                 self.loader = PyPDFLoader(filename)
             if self.type == "md":
+                from langchain.document_loaders import UnstructuredMarkdownLoader
+
                 self.loader = UnstructuredMarkdownLoader(filename)
             if self.type == "csv":
+                from langchain.document_loaders.csv_loader import CSVLoader
+
                 self.loader = CSVLoader(filename, **kwargs)
             if self.type == "txt":
+                from langchain.document_loaders import TextLoader
+
                 self.loader = TextLoader(filename)
             self.pages = self.loader.load_and_split()
-
         else:
             # Handle the text_input. The logic here will depend on how you want to process the direct text.
             # This is a placeholder and might need adjustment based on your requirements.
