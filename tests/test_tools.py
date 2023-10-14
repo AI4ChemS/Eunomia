@@ -5,12 +5,15 @@
 import unittest
 
 import eunomia
+import os
 
 
-class TestGeneral(unittest.TestCase):
+class TestTools(unittest.TestCase):
     def test_tools(self):
         tool_names = list(eunomia.EunomiaTools.all_tools_dict.keys())
         vectorstore = "test_files/test_vector_store.pkl"
+        assert os.path.isfile(vectorstore), f"Test file {vectorstore} does not exist."
+
         return eunomia.EunomiaTools(
             tool_names=tool_names, vectorstore=vectorstore
         ).get_tools()
@@ -18,6 +21,7 @@ class TestGeneral(unittest.TestCase):
     def test_initialize_agent(self):
         tool_names = list(eunomia.EunomiaTools.all_tools_dict.keys())
         vectorstore = "test_files/test_vector_store.pkl"
+        assert os.path.isfile(vectorstore), f"Test file {vectorstore} does not exist."
         tools = eunomia.EunomiaTools(
             tool_names=tool_names, vectorstore=vectorstore
         ).get_tools()
