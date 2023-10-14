@@ -55,13 +55,11 @@ class LoadDoc:
 
                 self.loader = TextLoader(filename)
             self.pages = self.loader.load_and_split()
+            print(type(self.pages))
         else:
-            # Handle the text_input. The logic here will depend on how you want to process the direct text.
-            # This is a placeholder and might need adjustment based on your requirements.
-            self.pages = text_input.split(
-                "\n\n"
-            )  # Splits by double newline as an example. Adjust as necessary.
-            extension = "txt"
+            self.pages = [
+                Document(page_content=text_input, metadata={"source": "local"})
+            ]
 
     def _check_extension(self, extension: str):
         """
@@ -160,7 +158,7 @@ class LoadDoc:
 
     def process(
         self,
-        filter_words: List[str] = None,
+        filter_words: List[str] = [],
         chunk_size: Optional[int] = None,
         chunk_overlap: Optional[int] = 0,
         chunking_type="fixed-size",
