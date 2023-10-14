@@ -10,3 +10,4 @@ pandas
 fuzzywuzzy
 PyYAML
 llama-index
+unstructured
