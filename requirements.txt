@@ -11,3 +11,4 @@ fuzzywuzzy
 PyYAML
 llama-index
 unstructured
+markdown
