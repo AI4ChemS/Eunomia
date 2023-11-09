@@ -19,7 +19,3 @@ git clone https://github.com/AI4ChemS/Eunomia.git && cd Eunomia
 pip install -e .
 ```
 
-Authors
---------
-
-`EunomiA` is developed by [Mehrad Ansari](https://mehradans92.github.io/).
