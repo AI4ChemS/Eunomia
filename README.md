@@ -3,8 +3,7 @@
 # EunomiA
 LLM-based tool for predicting water stability of metal organic frameworks.
 
-![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/78525f9a-e544-4c04-b0a8-c24d84ca44f1)
-
+![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/2a59699a-188a-45fe-bd15-ddf18f4660aa)
 
 Installation
 --------
