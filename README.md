@@ -13,17 +13,17 @@ Live App
 Example 1: Molecular Targets and Peptide Sequences
 --------
 
-https://github.com/AI4ChemS/Eunomia/assets/51170839/26350a96-e7ba-47ad-90e0-4b388d58223d
+[VEGFR example](https://github.com/AI4ChemS/Eunomia/assets/51170839/26350a96-e7ba-47ad-90e0-4b388d58223d)
 
 Example 2: Water Stable Metal-organic Frameworks
 --------
 
-https://github.com/AI4ChemS/Eunomia/assets/51170839/ccd89e31-e7b4-49e8-b90f-c420438e751d
+[Water stability example](https://github.com/AI4ChemS/Eunomia/assets/51170839/ccd89e31-e7b4-49e8-b90f-c420438e751d)
 
 Example 2: Thermal Conductivity of Metal-organic Frameworks
 --------
 
-https://github.com/AI4ChemS/Eunomia/assets/51170839/d12afb51-669c-4a3f-b9be-171bec830915
+[Thermal conductivity example](https://github.com/AI4ChemS/Eunomia/assets/51170839/d12afb51-669c-4a3f-b9be-171bec830915)
 
 
 Installation
