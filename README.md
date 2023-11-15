@@ -20,7 +20,7 @@ Example 2: Water Stable Metal-organic Frameworks
 
 [Water stability example](https://github.com/AI4ChemS/Eunomia/assets/51170839/ccd89e31-e7b4-49e8-b90f-c420438e751d)
 
-Example 2: Thermal Conductivity of Metal-organic Frameworks
+Example 3: Thermal Conductivity of Metal-organic Frameworks
 --------
 
 [Thermal conductivity example](https://github.com/AI4ChemS/Eunomia/assets/51170839/d12afb51-669c-4a3f-b9be-171bec830915)
