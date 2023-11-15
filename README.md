@@ -10,6 +10,14 @@ Live App
 --------
 [https://eunomia.streamlit.app/](https://eunomia.streamlit.app/)
 
+Example 1: Molecular Targets and Peptide Sequences
+--------
+
+
+https://github.com/AI4ChemS/Eunomia/assets/51170839/26350a96-e7ba-47ad-90e0-4b388d58223d
+
+
+
 Installation
 --------
 
@@ -23,5 +31,3 @@ or you can clone the source code and install in developer mode:
 git clone https://github.com/AI4ChemS/Eunomia.git && cd Eunomia
 pip install -e .
 ```
-
-
