@@ -4,7 +4,8 @@
 # Eunomia
 Agent-based tool for developing materials datasets from scientifc literature.
 
-![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/2a59699a-188a-45fe-bd15-ddf18f4660aa)
+![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/9fa4d4a7-4997-4a8a-9483-8bea6911b131)
+
 
 Live App
 --------
