@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://eunomia.streamlit.app/)
 # Eunomia
-Agent-based tool for developing materials datasets from scientifc literature.
+Chemist AI Agent for Developing Materials Datasets
 
 ![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/9fa4d4a7-4997-4a8a-9483-8bea6911b131)
 
