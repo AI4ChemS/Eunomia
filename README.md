@@ -2,9 +2,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://eunomia.streamlit.app/)
 # Eunomia
-Chemist AI Agent for Developing Materials Datasets
+AI Agent Chemist for Developing Materials Datasets
 
 ![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/9fa4d4a7-4997-4a8a-9483-8bea6911b131)
+
+## Iterative-Chain-of-Verification (CoV)
+Eunomia employs a chain-of-verification process iteratively to minimize the likelihood of hallucination, as well as integrating chemistry-informed knowledge into decision-making and action-taking plannings.
+
+![cov_with_flow](https://github.com/AI4ChemS/Eunomia/assets/51170839/2db06b6f-327c-462d-a2c5-7d69737f9ce9)
 
 
 Live App
