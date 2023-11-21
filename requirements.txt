@@ -1,7 +1,7 @@
 black==21.7b0
 pydantic==1.10.12
 openai
-langchain
+langchain==0.0.295
 pypdf
 tiktoken
 matplotlib

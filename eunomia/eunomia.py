@@ -49,10 +49,11 @@ def RetrievalQABypassTokenLimit(
             result = qa_chain.run(prompt)
             return result  # If successful, return the result and exit the function
 
-        except Exception:
+        except Exception as e:
             # If an error is caught, reduce the value of k and retry
+            print(e)
             print(
-                f"\nk={k} results hitting the token limit for the chosen LLM. Reducing k and retrying..."
+                f"\nk={k} results hitting the token limit for the chosen LLM. Reducing k and retrying...\n"
             )
             k -= 1
 
