@@ -27,8 +27,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Publish distribution 📦 to PyPI
       run: |
-        pip install build
-        python -m build --sdist --wheel --outdir dist/ .
+        python setup.py sdist bdist_wheel
         twine upload dist/*
       env:
           TWINE_USERNAME: __token__
