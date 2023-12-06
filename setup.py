@@ -32,7 +32,7 @@ setup(
     license="MIT license",
     include_package_data=True,
     keywords="eunomia",
-    name="eunomia",
+    name="materials-eunomia",
     packages=find_packages(include=["eunomia", "eunomia.*"]),
     test_suite="tests",
     tests_require=test_requirements,
