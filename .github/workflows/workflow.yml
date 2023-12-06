@@ -1,6 +1,8 @@
 name: publish
 
 on:
+  push:
+    branches: [ "main" ]
   release:
     types:
       - created
@@ -33,4 +35,3 @@ jobs:
       env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      uses: pypa/gh-action-pypi-publish@master
