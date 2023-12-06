@@ -46,7 +46,7 @@ git clone https://github.com/AI4ChemS/Eunomia.git && cd Eunomia
 pip install -e .
 ```
 
-Cofirm correct installation by running the unittests:
+Confirm correct installation by running the unittests:
 
 ```bash
 cd tests && python -m unittest discover
