@@ -27,7 +27,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    description="LLM-based tool for predicting water stability of metal organic frameworks",
+    description="Chemist AI Agent for Developing Materials Datasets with Natural Language Prompts",
     long_description=readme,
     long_description_content_type="text/markdown",
     install_requires=requirements,
@@ -39,6 +39,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/AI4ChemS/Eunomia",
-    version="0.1.1",
+    version="0.1.0",
     zip_safe=False,
 )
