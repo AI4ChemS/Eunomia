@@ -35,13 +35,19 @@ Example 3: Thermal Conductivity of Metal-organic Frameworks
 Installation
 --------
 
-```python
-pip install Eunomia@git+https://github.com/AI4ChemS/Eunomia.git
+```bash
+pip install materials-eunomia
 ```
 
 or you can clone the source code and install in developer mode:
 
-```python
+```bash
 git clone https://github.com/AI4ChemS/Eunomia.git && cd Eunomia
 pip install -e .
+```
+
+Cofirm correct installation by running the unittests:
+
+```bash
+cd tests && python -m unittest discover
 ```
