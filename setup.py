@@ -28,6 +28,8 @@ setup(
         "Programming Language :: Python :: 3.9",
     ],
     description="LLM-based tool for predicting water stability of metal organic frameworks",
+    long_description=readme,
+    long_description_content_type="text/markdown",
     install_requires=requirements,
     license="MIT license",
     include_package_data=True,
