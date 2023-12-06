@@ -9,7 +9,7 @@ AI Agent Chemist for Developing Materials Datasets
 ![TOC](https://github.com/AI4ChemS/Eunomia/assets/51170839/9fa4d4a7-4997-4a8a-9483-8bea6911b131)
 
 ## Iterative-Chain-of-Verification (CoV)
-Eunomia employs a chain-of-verification process iteratively to minimize the likelihood of hallucination, as well as integrating chemistry-informed knowledge into decision-making and action-taking plannings.
+Eunomia employs a chain-of-verification process iteratively to minimize the likelihood of hallucination, as well as integrating chemistry-informed knowledge into decision-making and action-taking plannings of the LLM.
 
 ![cov_with_flow](https://github.com/AI4ChemS/Eunomia/assets/51170839/2db06b6f-327c-462d-a2c5-7d69737f9ce9)
 
