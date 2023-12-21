@@ -13,7 +13,7 @@ class Eunomia:
         temp=0.1,
         get_cost=False,
         max_iterations=40,
-        agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        agent_type=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
         **kwargs,
     ):
         if model.startswith("gpt-3.5-turbo") or model.startswith("gpt-4"):

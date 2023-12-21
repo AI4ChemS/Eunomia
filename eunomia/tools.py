@@ -5,6 +5,7 @@ import langchain
 import eunomia
 
 from .prompts import RULES, WATER_STABILITY_PROMPT
+from langchain.tools import StructuredTool
 
 
 class EunomiaTools:
@@ -17,10 +18,15 @@ class EunomiaTools:
         self.all_tools = []
         for name in tool_names:
             tool_info = EunomiaTools.all_tools_dict.get(name, {})
+            # if tool_info =='eval_justification':
+            #     tool_info['description'] = f"""Always use this tool to validate justification."""
+            # else:
             self.all_tools.append(
                 langchain.agents.Tool(
                     name=name,
-                    func=tool_info.get("function"),
+                    func=tool_info.get("function")
+                    if name != "eval_justification"
+                    else StructuredTool.from_function(tool_info.get("function")),
                     description=(tool_info.get("description")),
                 )
             )
@@ -214,12 +220,15 @@ class EunomiaTools:
         time.sleep(30)
         driver.quit()
 
-    def eval_justification(justification):
+    def eval_justification(MOF_name, justification):
+        """Always use this tool to validate justification.
+        This function takes MOF_name and justification as input and checks if the justification
+          talks about the water stability perdiction makes sense for the MOF_name."""
         import openai
 
         model = "gpt-4"
         prompt = f"""
-                Do the below sentences actually talk about water stability of the found MOF?
+                Do the below sentences actually talk about water stability of the {MOF_name}?
                 If not, try to find a better justification for that MOF in the document.
 
                 "{justification}"
@@ -322,8 +331,7 @@ class EunomiaTools:
         "recheck_justification": {
             "function": recheck_justification,
             "description": """This tool reads the document again for the specific
-              MOF_name and tries to find a better
-              justification for its water stability. """,
+              MOF_name and tries to find a better justification for its water stability. """,
         },
         "read_doc": {
             "function": read_doc,
@@ -334,8 +342,8 @@ class EunomiaTools:
         "eval_justification": {
             "function": eval_justification,
             "description": """Always use this tool to validate justification.
-            This function checks if the justification
-              talks about the water stability perdiction makes sense for each MOF.""",
+            This function takes MOF_name and justification as input and checks if the justification
+              talks about the water stability perdiction makes sense for the MOF_name.""",
         },
         "get_cif_from_CCDC": {
             "function": get_cif_from_CCDC,
