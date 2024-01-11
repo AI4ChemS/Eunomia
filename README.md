@@ -48,6 +48,12 @@ git clone https://github.com/AI4ChemS/Eunomia.git && cd Eunomia
 pip install -e .
 ```
 
+You need to have a valid OPENAI API key. If you are on a windows machine you can add `OPENAI_API_KEY` in your Environment Variables. For linux systems set the key by adding this line to `~/.bashrc`:
+
+```bash
+export OPENAI_API_KEY=your_api_key_here
+```
+
 Confirm correct installation by running the unittests:
 
 ```bash
