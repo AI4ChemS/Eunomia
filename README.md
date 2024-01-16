@@ -59,3 +59,19 @@ Confirm correct installation by running the unittests:
 ```bash
 cd tests && python -m unittest discover
 ```
+
+Citation
+--------
+
+See [preprint]([https://www.sciencedirect.com/science/article/pii/S2352152X23036782](https://arxiv.org/abs/2312.11690)) and the citation:
+
+```bibtex
+@misc{ansari2023agentbased,
+      title={Agent-based Learning of Materials Datasets from Scientific Literature}, 
+      author={Mehrad Ansari and Seyed Mohamad Moosavi},
+      year={2023},
+      eprint={2312.11690},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+```
