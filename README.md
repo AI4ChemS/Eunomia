@@ -63,7 +63,7 @@ cd tests && python -m unittest discover
 Citation
 --------
 
-See [preprint]([https://www.sciencedirect.com/science/article/pii/S2352152X23036782](https://arxiv.org/abs/2312.11690)) and the citation:
+See [preprint](https://arxiv.org/abs/2312.11690) and the citation:
 
 ```bibtex
 @misc{ansari2023agentbased,
