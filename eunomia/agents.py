@@ -1,6 +1,7 @@
 import langchain
 from langchain.agents import initialize_agent
-from llama_index import GPTListIndex, GPTIndexMemory
+from llama_index.core import ListIndex
+from langchain.memory import ConversationBufferMemory
 from langchain.callbacks import get_openai_callback
 from langchain.agents import AgentType
 
@@ -29,12 +30,7 @@ class Eunomia:
         self.max_iterations = max_iterations
 
         # Initialize agent
-        index = GPTListIndex([])
-        memory = GPTIndexMemory(
-            index=index,
-            memory_key="chat_history",
-            query_kwargs={"response_mode": "compact"},
-        )
+        memory = ConversationBufferMemory(memory_key="chat_history")
         self.agent_chain = initialize_agent(
             tools, self.llm, agent=agent_type, verbose=True, memory=memory, **kwargs
         )
