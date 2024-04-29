@@ -18,7 +18,8 @@ class TestDocs(unittest.TestCase):
         ]
         for i, e in enumerate(extensions):
             test_file_name = f"test_files/test_docs.{e}"
-            docs_processor = eunomia.LoadDoc(file_name=test_file_name, encoding="utf8")
+            docs_processor = eunomia.LoadDoc(file_name=test_file_name, encoding="utf8", csv_args={
+                "delimiter": ","})
             doc_pages = docs_processor.process(
                 filter_words=[
                     "references ",
