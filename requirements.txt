@@ -1,9 +1,9 @@
 black==21.7b0
 pydantic==1.10.12
-openai==0.28.1
+openai==0.28.0
 openapi-schema-pydantic==1.2.4
 faiss-cpu==1.7.4
-langchain==0.0.295
+langchain==0.0.157
 pypdf
 tiktoken
 matplotlib
