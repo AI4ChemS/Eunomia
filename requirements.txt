@@ -15,4 +15,4 @@ PyYAML
 llama-index==0.10.31
 unstructured
 markdown
-python-Levenshteina
+python-Levenshtein
