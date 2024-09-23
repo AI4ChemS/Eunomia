@@ -60,6 +60,10 @@ Confirm correct installation by running the unittests:
 cd tests && python -m unittest discover
 ```
 
+Applying Other LLMs
+--------
+Eunomia uses openAI's `gpt-4` by default but you can use other LLMs for driving the agent as well. Check out this [notebook](https://github.com/AI4ChemS/Eunomia/blob/main/examples/Applying_other_LLMs.ipynb) for examples.
+
 Citation
 --------
 
