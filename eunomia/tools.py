@@ -215,8 +215,9 @@ class EunomiaTools:
         driver.quit()
 
     def eval_justification(justification):
-        import openai
-
+        from langchain_openai import ChatOpenAI
+        from langchain.schema import HumanMessage
+        
         model = "gpt-4"
         prompt = f"""
                 Do the below sentences actually talk about water stability of the found MOF?
@@ -234,18 +235,20 @@ class EunomiaTools:
                 Do not make up answers.
                 Do not consider chemical or thermal stability or stability in air as a valid reason.
                 """
-        messages = [{"role": "user", "content": prompt}]
-        response = openai.ChatCompletion.create(
-            model=model,
-            messages=messages,
-            temperature=0,
+        messages = [HumanMessage(content=prompt)]
+        model = ChatOpenAI(
+            model_name=model,  # 'gpt-3.5-turbo' or 'gpt-4'
+            temperature=0,  # Control the randomness of the model's responses
+            request_timeout=1000,  # Timeout setting (if needed)
         )
-        return response.choices[0].message["content"]
+        response = model(messages)
+        return response.content
 
     def read_doc(input):
+        from langchain_openai import ChatOpenAI
         k = 9
         min_k = 2  # Minimum limit for k
-        llm = langchain.OpenAI(temperature=0, model_name="gpt-4")
+        llm = ChatOpenAI(temperature=0, model_name="gpt-4")
         result = eunomia.RetrievalQABypassTokenLimit(
             WATER_STABILITY_PROMPT,
             EunomiaTools.vectorstore,
@@ -276,7 +279,8 @@ class EunomiaTools:
             """
         k = 6
         min_k = 2  # Minimum limit for k
-        llm = langchain.OpenAI(temperature=0, model_name="gpt-4")
+        from langchain_openai import ChatOpenAI
+        llm = ChatOpenAI(temperature=0, model_name="gpt-4")
         result = eunomia.RetrievalQABypassTokenLimit(
             input_prompt,
             EunomiaTools.vectorstore,
