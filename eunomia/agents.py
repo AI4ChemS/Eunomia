@@ -27,13 +27,14 @@ class Eunomia:
                     max_tokens=2000,
                 )
 
-            # Initialize agent
-            memory = ConversationBufferMemory(memory_key="chat_history")
-            self.agent_chain = initialize_agent(
+         
+        else: 
+            self.llm = model
+        # Initialize agent
+        memory = ConversationBufferMemory(memory_key="chat_history")
+        self.agent_chain = initialize_agent(
                 tools, self.llm, agent=agent_type, verbose=True, memory=memory, **kwargs
             )
-        else: 
-            self.model = model
 
     def run(self, prompt):
         with get_openai_callback() as cb:
