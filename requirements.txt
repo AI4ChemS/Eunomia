@@ -1,6 +1,7 @@
 black==21.7b0
 pydantic==2.9.2
 openai==1.23.6
+langchain-openai==0.1.4
 llama-index-core==0.10.68
 openapi-schema-pydantic==1.2.4
 faiss-cpu==1.7.4
@@ -16,3 +17,4 @@ llama-index==0.10.31
 unstructured
 markdown
 python-Levenshtein
+
