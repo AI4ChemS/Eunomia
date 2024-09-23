@@ -4,7 +4,7 @@ openai==0.28.1
 llama-index-core
 openapi-schema-pydantic==1.2.4
 faiss-cpu==1.7.4
-langchain-0.0.339
+langchain==0.0.339
 pypdf
 tiktoken
 matplotlib
