@@ -9,6 +9,9 @@ import eunomia
 
 class TestDocs(unittest.TestCase):
     def test_loadDocs(self):
+        import nltk
+        nltk.download('punkt')
+        nltk.download('averaged_perceptron_tagger_eng')
         extensions = ["csv", "txt", "md", "pdf"]
         test_results = [
             ["name:", "description:"],
