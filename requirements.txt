@@ -1,6 +1,6 @@
 black==21.7b0
 pydantic==1.10.12
-openai==1.1.0
+openai==0.28.1
 llama-index-core
 openapi-schema-pydantic==1.2.4
 faiss-cpu==1.7.4
@@ -12,7 +12,7 @@ seaborn
 pandas
 fuzzywuzzy
 PyYAML
-llama-index==0.9.48
+llama-index==0.10.31
 unstructured
 markdown
 python-Levenshtein
