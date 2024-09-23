@@ -12,7 +12,7 @@ seaborn
 pandas
 fuzzywuzzy
 PyYAML
-llama-index==0.10.31
+llama-index==0.9.48
 unstructured
 markdown
 python-Levenshtein
