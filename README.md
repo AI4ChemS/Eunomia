@@ -1,4 +1,4 @@
-![example workflow](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+![Test Status](https://github.com/AI4ChemS/Eunomia/actions/workflows/test.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://eunomia.streamlit.app/)
 [![PyPI version](https://badge.fury.io/py/materials-eunomia.svg)](https://badge.fury.io/py/materials-eunomia)
